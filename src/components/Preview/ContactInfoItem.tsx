@@ -1,6 +1,11 @@
-import PropTypes from "prop-types";
+import React from "react";
 
-export default function ContactInfoItem({ value, icon }) {
+interface ContactInfoItemProps {
+  value: string;
+  icon: string;
+}
+
+export default function ContactInfoItem({ value, icon }: ContactInfoItemProps) {
   return (
     <>
       {value.length !== 0 && (
@@ -12,8 +17,3 @@ export default function ContactInfoItem({ value, icon }) {
     </>
   );
 }
-
-ContactInfoItem.propTypes = {
-  value: PropTypes.string,
-  icon: PropTypes.string,
-};

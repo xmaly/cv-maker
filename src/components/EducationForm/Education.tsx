@@ -1,49 +1,74 @@
-import PropTypes from "prop-types";
+import React from "react";
 import InputItem from "../InputItem";
+import { v4 as uuidv4 } from "uuid";
 import "../../styles/Education.css";
 import "../../styles/CreatedGroup.css";
 import { useState, useEffect, useCallback } from "react";
-import CreatedEducations from "./CreatedEducation";
-import uuid from "react-uuid";
+import CreatedEducations from "./CreatedEducations";
 import AddNewButton from "../AddNewButton";
+import { EducationData } from "../../types";
+
+interface EducationProps {
+  educationsArray: EducationData[];
+  callback: (mode: string, data: any) => void;
+  removeActiveClass: (id: string) => void;
+  initValues: () => EducationData;
+}
 
 export default function Education({
   educationsArray,
   callback,
   removeActiveClass,
   initValues,
-}) {
+}: EducationProps) {
   const [educationWasDeleted, setEducationWasDeleted] = useState(false);
 
-  const handleChange = (name, value) => {
-    const updatedEducationsArray = [...educationsArray];
-    const currentId = document.querySelector(".education button.active")
-      .parentElement.id;
-    const educationToUpdate = updatedEducationsArray.find(
-      (education) => education.id === currentId
+  const handleChange = (name: string, value: any) => {
+    const currentActiveButton = document.querySelector(
+      ".education button.active"
     );
-    educationToUpdate[name] = value;
+
+    const activeEducationIndex = educationsArray.findIndex(
+      (education) => education.id === currentActiveButton?.parentElement?.id
+    );
+
+    if (activeEducationIndex === -1) {
+      return;
+    }
+
+    const updatedEducationsArray = [...educationsArray];
+    (updatedEducationsArray[activeEducationIndex] as any)[name] = value;
     callback("education", updatedEducationsArray);
   };
 
-  const updateFormValues = useCallback((values) => {
-    document.getElementById("school").value = values.school;
-    document.getElementById("location").value = values.location;
-    document.getElementById("degree").value = values.degree;
-    document.getElementById("field-of-study").value = values.fieldOfStudy;
-    document.getElementById("start-date").value = values.educationStartYear;
-    document.getElementById("end-date").value = values.educationEndYear;
+  const updateFormValues = useCallback((values: EducationData) => {
+    const setElementValue = (id: string, value: string | undefined) => {
+      const element = document.getElementById(id) as HTMLInputElement | null;
+      if (element) {
+        element.value = value || "";
+      }
+    };
+
+    setElementValue("school", values.school);
+    setElementValue("location", values.location);
+    setElementValue("degree", values.degree);
+    setElementValue("field-of-study", values.fieldOfStudy);
+    setElementValue("start-date", values.educationStartYear);
+    setElementValue("end-date", values.educationEndYear);
   }, []);
 
-  const handleCreatedEducationClicked = (values) => {
+  const handleCreatedEducationClicked = (values: EducationData) => {
     updateFormValues(values);
     updateActiveTab(values.id);
   };
 
   const updateActiveTab = useCallback(
-    (id) => {
-      removeActiveClass("education");
+    (id: string) => {
       const button = document.querySelector(`[id="${id}"] > button`);
+      if (!button) {
+        return;
+      }
+      removeActiveClass("education");
       button.classList.add("active");
       updateFormValues(
         educationsArray[educationsArray.findIndex((item) => item.id === id)]
@@ -65,13 +90,13 @@ export default function Education({
   }, [educationsArray, updateActiveTab, educationWasDeleted]);
 
   const addNewEducation = () => {
-    var newEducation = { ...initValues(), id: uuid() };
+    const newEducation = { ...initValues(), id: uuidv4() };
     callback("education", [...educationsArray, newEducation]);
     updateFormValues(newEducation);
     removeActiveClass("education");
   };
 
-  const deleteEducation = (id) => {
+  const deleteEducation = (id: string) => {
     if (educationsArray.length < 2) {
       return;
     }
@@ -141,13 +166,3 @@ export default function Education({
     </div>
   );
 }
-
-Education.propTypes = {
-  educationsArray: PropTypes.array,
-  callback: PropTypes.func,
-  addNewEducation: PropTypes.func,
-  deleteEducation: PropTypes.func,
-  makeEducationButtonActive: PropTypes.func,
-  removeActiveClass: PropTypes.func,
-  initValues: PropTypes.func,
-};

@@ -1,31 +1,39 @@
-import PropTypes from "prop-types";
+import React from "react";
 import CreatedWorkingExperiences from "./CreatedWorkingExperiences";
 import InputItem from "../InputItem";
 import "../../styles/WorkingExperience.css";
 import "../../styles/CreatedGroup.css";
 import { useState, useEffect, useCallback } from "react";
-import uuid from "react-uuid";
+import { v4 as uuidv4 } from "uuid";
 import AddNewButton from "../AddNewButton";
+import { WorkingExperienceData } from "../../types";
+
+interface WorkingExperienceProps {
+  workingExperiencesArray: WorkingExperienceData[];
+  removeActiveClass: (id: string) => void;
+  callback: (mode: string, data: any) => void;
+  initValues: () => WorkingExperienceData;
+}
 
 export default function WorkingExperience({
   workingExperiencesArray,
   removeActiveClass,
   callback,
   initValues,
-}) {
+}: WorkingExperienceProps) {
   const [workingExperienceWasDeleted, setWorkingExperienceWasDeleted] =
     useState(false);
 
-  const handleCreatedWorkingExperienceClicked = (values) => {
-    setFormValues(values);
+  const handleCreatedWorkingExperienceClicked = (values: any) => {
+    updateFormValues(values);
     makeWorkingExperienceButtonActive(values.id);
   };
 
   const makeWorkingExperienceButtonActive = useCallback(
-    (id) => {
+    (id: string) => {
       removeActiveClass("working-experience");
       const button = document.querySelector(`[id="${id}"] > button`);
-      button.classList.add("active");
+      button?.classList.add("active");
     },
     [removeActiveClass]
   );
@@ -46,7 +54,7 @@ export default function WorkingExperience({
     workingExperienceWasDeleted,
   ]);
 
-  const deleteWorkingExperience = (id) => {
+  const deleteWorkingExperience = (id: string) => {
     if (workingExperiencesArray.length < 2) {
       return;
     }
@@ -59,37 +67,50 @@ export default function WorkingExperience({
     setWorkingExperienceWasDeleted(true);
   };
 
-  const handleChange = (name, value) => {
-    const updatedWorkingExperiencesArray = [...workingExperiencesArray];
-    const currentId = document.querySelector(
-      ".working-experience button.active"
-    ).parentElement.id;
-    const workingExperienceToUpdate = updatedWorkingExperiencesArray.find(
-      (experience) => experience.id === currentId
-    );
-
-    workingExperienceToUpdate[name] = value;
-    callback("working-experience", updatedWorkingExperiencesArray);
-  };
-
   const addNewWorkingExperience = () => {
-    var newWorkingExperience = { ...initValues(), id: uuid() };
+    const newWorkingExperience = { ...initValues(), id: uuidv4() };
     callback("working-experience", [
       ...workingExperiencesArray,
       newWorkingExperience,
     ]);
-    setFormValues(newWorkingExperience);
+    updateFormValues(newWorkingExperience);
     removeActiveClass("working-experience");
   };
 
-  const setFormValues = (values) => {
-    document.getElementById("company-name").value = values.companyName;
-    document.getElementById("position-title").value = values.positionTitle;
-    document.getElementById("work-start-date").value = values.workStartYear;
-    document.getElementById("work-end-date").value = values.workEndYear;
-    document.getElementById("work-location").value = values.workLocation;
-    document.getElementById("description").value = values.description;
+  const handleChange = (name: string, value: any) => {
+    const currentActiveButton = document.querySelector(
+      ".working-experience button.active"
+    );
+
+    const activeWorkingEducationIndex = workingExperiencesArray.findIndex(
+      (experience) => experience.id === currentActiveButton?.parentElement?.id
+    );
+
+    if (activeWorkingEducationIndex === -1) {
+      return;
+    }
+
+    const updatedWorkingExperiencesArray = [...workingExperiencesArray];
+    (updatedWorkingExperiencesArray[activeWorkingEducationIndex] as any)[name] =
+      value;
+    callback("working-experience", updatedWorkingExperiencesArray);
   };
+
+  const updateFormValues = useCallback((values: WorkingExperienceData) => {
+    const setElementValue = (id: string, value: string | undefined) => {
+      const element = document.getElementById(id) as HTMLInputElement | null;
+      if (element) {
+        element.value = value || "";
+      }
+    };
+
+    setElementValue("company-name", values.companyName);
+    setElementValue("work-location", values.workLocation);
+    setElementValue("position-title", values.positionTitle);
+    setElementValue("work-start-date", values.workStartYear);
+    setElementValue("work-end-date", values.workEndYear);
+    setElementValue("description", values.description);
+  }, []);
 
   return (
     <div className="working-experience">
@@ -155,10 +176,3 @@ export default function WorkingExperience({
     </div>
   );
 }
-
-WorkingExperience.propTypes = {
-  workingExperiencesArray: PropTypes.array,
-  removeActiveClass: PropTypes.func,
-  callback: PropTypes.func,
-  initValues: PropTypes.func,
-};

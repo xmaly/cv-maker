@@ -1,14 +1,25 @@
+import React from "react";
 import "../../styles/Preview.css";
 import ContactInfoItem from "./ContactInfoItem";
 import EducationSection from "./EducationSection";
 import WorkingExperienceSection from "./WorkingExperienceSection";
-import PropTypes from "prop-types";
+import {
+  EducationData,
+  PersonalDetailsData,
+  WorkingExperienceData,
+} from "../../types";
+
+interface PreviewProps {
+  personalDetails: PersonalDetailsData;
+  educationsArray: EducationData[];
+  workingExperiencesArray: WorkingExperienceData[];
+}
 
 export default function Preview({
   personalDetails,
   educationsArray,
   workingExperiencesArray,
-}) {
+}: PreviewProps) {
   return (
     <div className="preview">
       <div className="header">
@@ -40,9 +51,3 @@ export default function Preview({
     </div>
   );
 }
-
-Preview.propTypes = {
-  personalDetails: PropTypes.object,
-  educationsArray: PropTypes.array,
-  workingExperiencesArray: PropTypes.array,
-};

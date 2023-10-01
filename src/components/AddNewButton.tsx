@@ -1,7 +1,12 @@
-import PropTypes from "prop-types";
+import React from "react";
 import "../styles/AddNewButton.css";
 
-export default function AddNewButton({ mode, addNew }) {
+interface AddNewButtonProps {
+  mode: string;
+  addNew: () => void;
+}
+
+export default function AddNewButton({ mode, addNew }: AddNewButtonProps) {
   return (
     <button
       className={`new-${mode}`}
@@ -14,10 +19,3 @@ export default function AddNewButton({ mode, addNew }) {
     </button>
   );
 }
-
-AddNewButton.propTypes = {
-  mode: PropTypes.string,
-  removeActive: PropTypes.func,
-  addNew: PropTypes.func,
-  setForm: PropTypes.func,
-};

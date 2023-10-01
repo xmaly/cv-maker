@@ -1,3 +1,4 @@
+import React from "react";
 import "../styles/TopBar.css";
 
 export default function TopBar() {

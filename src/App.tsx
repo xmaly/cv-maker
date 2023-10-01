@@ -1,50 +1,53 @@
-import { useState } from "react";
-import PersonalDetails from "./components/PersonalDetails";
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import Education from "./components/EducationForm/Education";
-import Preview from "./components/Preview/Preview";
 import TopBar from "./components/TopBar";
-import "./styles/App.css";
-import uuid from "react-uuid";
+import PersonalDetails from "./components/PersonalDetails";
+import Preview from "./components/Preview/Preview";
 import WorkingExperience from "./components/WorkingExpericenceForm/WorkingExperience";
+import {
+  EducationData,
+  WorkingExperienceData,
+  PersonalDetailsData,
+} from "./types";
+import "./styles/App.css";
 
 function App() {
-  const [personalDetails, setPersonalDetails] = useState({
+  const [personalDetails, setPersonalDetails] = useState<PersonalDetailsData>({
     fullName: "Full Name",
     email: "",
     phoneNumber: "",
     address: "",
   });
 
-  const initEducation = () => {
-    return {
-      school: "My School",
-      degree: "",
-      fieldOfStudy: "",
-      educationStartYear: "2017-09-01",
-      educationEndYear: "2020-09-01",
-      location: "",
-      id: uuid(),
-    };
-  };
+  const initEducation = (): EducationData => ({
+    school: "My School",
+    degree: "",
+    fieldOfStudy: "",
+    educationStartYear: "2017-01-01",
+    educationEndYear: "2020-01-01",
+    location: "",
+    id: uuidv4(),
+  });
 
-  const initWorkingExperience = () => {
-    return {
-      companyName: "Company",
-      positionTitle: "",
-      workStartYear: "2020-09-01",
-      workEndYear: "2023-09-01",
-      workLocation: "",
-      description: "",
-      id: uuid(),
-    };
-  };
+  const initWorkingExperience = (): WorkingExperienceData => ({
+    companyName: "Company",
+    positionTitle: "",
+    workStartYear: "2020-01-01",
+    workEndYear: "2023-01-01",
+    workLocation: "",
+    description: "",
+    id: uuidv4(),
+  });
 
-  const [educationsArray, setEducationsArray] = useState([initEducation()]);
-  const [workingExperiencesArray, setWorkingExperiencesArray] = useState([
-    initWorkingExperience(),
+  const [educationsArray, setEducationsArray] = useState<EducationData[]>([
+    initEducation(),
   ]);
+  const [workingExperiencesArray, setWorkingExperiencesArray] = useState<
+    WorkingExperienceData[]
+  >([initWorkingExperience()]);
 
-  const handleChange = (mode, data) => {
+  const handleChange = (mode: string, data: any) => {
     switch (mode) {
       case "personal-details":
         setPersonalDetails(data);
@@ -56,13 +59,13 @@ function App() {
         setWorkingExperiencesArray([...data]);
         break;
       default:
-        console.log(
+        console.error(
           "Non-existing mode received when updating the original data."
         );
     }
   };
 
-  const removeActiveClass = (mode) => {
+  const removeActiveClass = (mode: string) => {
     const elements = document.querySelectorAll(`.${mode} .active`);
     elements.forEach((e) => {
       e.classList.remove("active");
@@ -95,7 +98,6 @@ function App() {
           personalDetails={personalDetails}
           educationsArray={educationsArray}
           workingExperiencesArray={workingExperiencesArray}
-          callback={handleChange}
         />
       </div>
     </>
