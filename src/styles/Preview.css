@@ -1,0 +1,103 @@
+:root {
+  --header-dark-bg: rgb(53, 100, 0);
+  --header-light-bg: rgb(201, 233, 164);
+}
+
+.preview {
+  background-color: white;
+  width: 565px;
+  height: 800px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--shadow);
+  gap: 20px;
+  align-self: flex-start;
+  position: sticky;
+  top: 80px;
+}
+
+/* Hide the rest of the page when printing */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .preview {
+    visibility: visible;
+  }
+}
+
+.header {
+  background: var(--header-dark-bg);
+  color: white;
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 15px;
+}
+
+.header > h1 {
+  text-align: center;
+}
+
+.contact-information {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+}
+
+.material-symbols-outlined {
+  font-size: 15px;
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.preview-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.preview-content > div > h2 {
+  background-color: var(--header-light-bg);
+  width: 100%;
+  text-align: center;
+  color: rgb(36, 65, 4);
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.education-content,
+.working-experience-content {
+  padding: 5px 30px;
+  display: flex;
+  grid-template-columns: 20% 80%;
+  gap: 40px;
+}
+
+.education-content > div:nth-child(1),
+.working-experience-content > div:nth-child(1) {
+  min-width: 25%;
+}
+
+.strong {
+  font-weight: 800;
+}
+
+.description {
+  font-size: 0.8rem;
+}

@@ -1,0 +1,10 @@
+.personal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 25px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  color: var(--black-font);
+}

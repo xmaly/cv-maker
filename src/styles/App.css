@@ -1,0 +1,59 @@
+:root {
+  --shadow: 0 0 10px rgb(177, 177, 177);
+  --gap-size: 50px;
+  --black-font: rgb(15, 15, 15);
+  --light-bg: rgb(236, 236, 236);
+  --input-bg: rgb(226, 226, 226);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: rgb(240, 240, 240);
+  color: rgb(36, 65, 4);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  padding: 60px;
+}
+
+.forms {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-size);
+}
+
+.input-item {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  padding: 6px 10px;
+  background-color: var(--input-bg);
+  border-radius: 10px;
+  outline: none;
+  border: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+}
