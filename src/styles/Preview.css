@@ -5,7 +5,7 @@
 
 .preview {
   background-color: white;
-  width: 565px;
+  width: min(95vw, 565px);
   height: 800px;
   flex-shrink: 0;
   display: flex;
@@ -16,17 +16,6 @@
   align-self: flex-start;
   position: sticky;
   top: 80px;
-}
-
-/* Hide the rest of the page when printing */
-@media print {
-  body * {
-    visibility: hidden;
-  }
-
-  .preview {
-    visibility: visible;
-  }
 }
 
 .header {

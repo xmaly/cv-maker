@@ -1,11 +1,11 @@
-export type PersonalDetailsData {
+export type PersonalDetailsData = {
   fullName: string;
   email: string;
   phoneNumber: string;
   address: string;
 }
 
-export type EducationData {
+export type EducationData = {
   school: string;
   degree: string;
   fieldOfStudy: string;
@@ -15,7 +15,7 @@ export type EducationData {
   id: string;
 }
 
-export type WorkingExperienceData {
+export type WorkingExperienceData = {
   companyName: string;
   positionTitle: string;
   workStartYear: string;
