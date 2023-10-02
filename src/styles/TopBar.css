@@ -1,9 +1,41 @@
 .top-bar {
   display: flex;
   justify-content: center;
-  background-color: rgb(31, 31, 31);
+  align-items: center;
+  background-color: rgb(34, 34, 34);
   padding: 15px;
+  gap: 20px;
   color: white;
   font-size: 1.5rem;
   font-weight: 900;
+  box-shadow: var(--shadow);
+}
+
+.top-bar > .caption {
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.caption > a {
+  color: rgb(112, 238, 53);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+span.website {
+  font-size: 22px;
+  opacity: 0.6;
+}
+
+span.website:hover {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+.grey {
+  color: rgb(167, 167, 167);
 }
